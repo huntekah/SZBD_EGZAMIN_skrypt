@@ -36,6 +36,19 @@ def test_ST(list):
                                 ST = False
     return ST
 
+def test_CSR(list):
+    kolejnosc = []
+    read_f = False
+    for i, e1 in enumerate(list):
+        alter_kol = ''
+        if e1[0] != 'c':
+            alter_kol = e1[3]
+            for j, e2 in enumerate(list):
+                if not(e2[0] == 'c') and not(read_f == True and e2[0] == 'r') and e1[3] == e2[3]:
+                    alter_kol+=e2[1]
+            kolejnosc.append(alter_kol)
+    print("CSR: "+str(kolejnosc))
+
 def test_Transaction():
     H = input()
     operations = [str(x).lower() for x in H.split()]
