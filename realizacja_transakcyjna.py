@@ -55,5 +55,6 @@ def test_Transaction():
     print("RC: "+str(test_RC(operations)))
     print("ACA: "+str(test_ACA(operations)))
     print("ST: "+str(test_ST(operations)))
+    test_CSR(operations)
 
 test_Transaction()
