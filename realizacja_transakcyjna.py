@@ -1,4 +1,20 @@
+## Script test's Transactions for RC, ACA, ST and CSR
 
+## Skrypt przystosowany do egzaminu na Politechnice Poznańskiej z Baz Danych 2.
+## Program nie powinien być case sensitive, jednak należy trzymać się notacji z zadania.
+# przykładowy input:
+
+# input
+# w2(a) r1(b) c1 r3(a) c2 c3
+
+# output:
+# RC: True
+# ACA: False
+# ST: False
+# CSR: True
+
+# input
+# r3(c) r1(c) r3(c) w2(b) c2 c1 r3(a) w3(b) w3(c) c3
 
 def test_RC(list):
     RC = True
@@ -36,18 +52,34 @@ def test_ST(list):
                                 ST = False
     return ST
 
+#r2(c) r1(a) r3(c) w1(b) r2(a) w2(c) w2(a) r2(a) w3(a) c2 c3 c1
 def test_CSR(list):
     kolejnosc = []
     read_f = False
     for i, e1 in enumerate(list):
         alter_kol = ''
+        read_f = False
+        if e1[0] == 'r':
+            read_f = True
         if e1[0] != 'c':
-            alter_kol = e1[3]
             for j, e2 in enumerate(list):
-                if not(e2[0] == 'c') and not(read_f == True and e2[0] == 'r') and e1[3] == e2[3]:
+                if not(e2[0] == 'c') and not(read_f == True and e2[0] == 'r') and e1[3] == e2[3] and i<j:
                     alter_kol+=e2[1]
             kolejnosc.append(alter_kol)
-    print("CSR: "+str(kolejnosc))
+    CSR = True
+    for order1 in kolejnosc:
+        for order2 in kolejnosc:
+            for i, t11 in enumerate(order1):
+                for j, t12 in enumerate(order1):
+                    for k, t21 in enumerate(order2):
+                        for l, t22 in enumerate(order2):
+                            if t11 == t22 and t12 == t21 and i<j and k<l:
+                                CSR = False
+                                #print("CSR: " + str(kolejnosc))
+                                return CSR
+    #print("CSR: " + str(kolejnosc))
+    return CSR
+
 
 def test_Transaction():
     H = input()
@@ -55,6 +87,7 @@ def test_Transaction():
     print("RC: "+str(test_RC(operations)))
     print("ACA: "+str(test_ACA(operations)))
     print("ST: "+str(test_ST(operations)))
-    test_CSR(operations)
+    print("CSR: " + str(test_CSR(operations)))
+
 
 test_Transaction()
